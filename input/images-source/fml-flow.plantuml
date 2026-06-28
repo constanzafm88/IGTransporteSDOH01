@@ -1,0 +1,31 @@
+@startuml
+skinparam monochrome true
+
+actor "Paciente" as pac
+participant "Cuestionario\n(QuestionnaireResponse)" as QR
+participant "Motor FML\n(StructureMap)" as FML
+participant "Observaciones\n(ObservationSDOH)" as OBS
+actor "Trabajador(a)\nSocial" as TS
+participant "Diagnóstico\n(CondicionSDOH)" as COND
+
+pac -> QR: 1. Responde tamizaje digital
+activate QR
+
+QR -> FML: 2. Carga datos de tamizaje
+activate FML
+
+FML -> OBS: 3. Ejecuta reglas y genera observaciones (LOINC)
+activate OBS
+deactivate FML
+deactivate QR
+
+TS -> OBS: 4. Evalúa observaciones (evidencia)
+activate TS
+
+TS -> COND: 5. Confirma y registra diagnóstico social (SNOMED CT)
+activate COND
+deactivate TS
+deactivate OBS
+deactivate COND
+
+@enduml

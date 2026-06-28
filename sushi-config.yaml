@@ -1,0 +1,45 @@
+id: ig.transporte.sdoh
+canonical: http://biomedica.uv.cl/fhir/ig/transporte
+name: GuiaTransporteSDOH
+status: draft
+version: 0.1.0
+fhirVersion: 4.0.1
+copyrightYear: 2026
+releaseLabel: ci-build
+publisher:
+  name: Curso UV
+  url: http://biomedica.uv.cl
+
+dependencies:
+  hl7.fhir.cl.clcore: 1.9.4
+  hl7.fhir.cl.minsal.eis: dev
+
+title: "Guía de Implementación de Determinantes Sociales de la Salud (SDOH) para la APS Chilena"
+description: "Especificación de interoperabilidad para el registro y gestión de determinantes sociales, utilizando el módulo piloto de Transporte como dominio inicial."
+menu:
+  Inicio: index.html
+  Aspectos Clínicos y Técnicos:
+    Aspectos Clínicos: objetivos.html
+    Aspectos Técnicos: tecnicos.html
+  Mapeo Estructural (FML): mapeo.html
+  Artefactos: artifacts.html
+pages:
+  index.md:
+    title: Inicio
+  objetivos.md:
+    title: Aspectos Clínicos
+  tecnicos.md:
+    title: Aspectos Técnicos
+  mapeo.md:
+    title: Mapeo y Transformación Estructural (FML)
+
+resources:
+  StructureMap/TransporteToObs:
+    description: "Mapeo de transformación de QuestionnaireResponse a Observation de Transporte SDOH"
+    reference:
+      reference: StructureMap/TransporteToObs
+
+parameters:
+  special-url:
+    - http://snomed.info/sct
+    - http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/sdohcc-temporary-codes

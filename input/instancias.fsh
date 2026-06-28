@@ -1,0 +1,1 @@
+// Este archivo fue trasladado a input/fsh/instancias.fsh para permitir la compilación automática en SUSHI.

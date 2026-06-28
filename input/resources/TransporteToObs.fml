@@ -1,0 +1,69 @@
+map "http://biomedica.uv.cl/fhir/ig/transporte/StructureMap/TransporteToObs" = "TransporteToObs"
+
+uses "http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse" alias QResponse as source
+uses "http://hl7.org/fhir/StructureDefinition/Bundle"                alias Bundle    as target
+uses "http://hl7.org/fhir/StructureDefinition/Observation"           alias Obs       as target
+
+group TransporteToObs(source src : QResponse, target tgt : Bundle) {
+  src -> tgt.type = 'collection' "ruleBundleType";
+  src.item as grp -> tgt then ProcessGrupo(grp, tgt, src) "ruleGroup";
+}
+
+group ProcessGrupo(source grp, target tgt : Bundle, source parent) {
+  grp.item as item -> tgt.entry as entry then ProcessEntry(item, entry, parent) "ruleEntry";
+}
+
+group ProcessEntry(source item, target entry, source parent) {
+  item -> entry.fullUrl = uuid() "ruleFullUrl";
+  item -> entry.resource = create('Observation') as obs then TransformItemToObservation(item, obs, parent) "ruleObs";
+}
+
+group TransformItemToObservation(source item, target obs : Obs, source parent) {
+  parent.subject as sub -> obs.subject = sub "ruleSubject";
+  item -> obs.status = 'final' "ruleStatus";
+  
+  // Category 1: social-history (Core CL)
+  item -> obs.category = create('CodeableConcept') as cat1 then {
+    item -> cat1.coding = create('Coding') as cod1 then {
+      item -> cod1.system = 'http://terminology.hl7.org/CodeSystem/observation-category' "cat1Sys";
+      item -> cod1.code = 'social-history' "cat1Code";
+    } "cat1Coding";
+  } "cat1";
+
+  // Category 2: sdoh (Gravity Flag)
+  item -> obs.category = create('CodeableConcept') as cat2 then {
+    item -> cat2.coding = create('Coding') as cod2 then {
+      item -> cod2.system = 'http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/sdohcc-temporary-codes' "cat2Sys";
+      item -> cod2.code = 'sdoh' "cat2Code";
+    } "cat2Coding";
+  } "cat2";
+
+  // Category 3: transportation-insecurity (Domain)
+  item -> obs.category = create('CodeableConcept') as cat3 then {
+    item -> cat3.coding = create('Coding') as cod3 then {
+      item -> cod3.system = 'http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/sdohcc-temporary-codes' "cat3Sys";
+      item -> cod3.code = 'transportation-insecurity' "cat3Code";
+    } "cat3Coding";
+  } "cat3";
+
+  item.linkId as id -> obs.code = create('CodeableConcept') as code then SetCode(id, code) "ruleCode";
+  item.answer as ans -> obs then SetAnswer(ans, obs) "ruleAnswer";
+}
+
+group SetCode(source id, target code : CodeableConcept) {
+  id -> code.coding = create('Coding') as coding then SetCoding(id, coding) "ruleCoding";
+}
+
+group SetCoding(source id, target coding : Coding) {
+  id -> coding.code = id "ruleCodeVal";
+  id -> coding.system = 'http://loinc.org' "ruleSystemVal";
+}
+
+group SetAnswer(source ans, target obs : Obs) {
+  ans.value : boolean as v -> obs.value = v "ruleAnsBool";
+  ans.value : Coding as v -> obs.value = create('CodeableConcept') as cc then SetCC(v, cc) "ruleAnsCoding";
+}
+
+group SetCC(source v, target cc : CodeableConcept) {
+  v -> cc.coding = v "ruleSetCodingVal";
+}

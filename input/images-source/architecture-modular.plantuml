@@ -1,0 +1,11 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+
+rectangle "Base Común Administrativa\n(Paciente, Organización, Rol, Consentimiento)" as Base
+rectangle "Módulo de Transporte\n(Piloto Implementado)" as Transporte
+rectangle "Módulos Temáticos Futuros\n(Alimentación, Vivienda, etc.)" as Futuros
+
+Base <|-- Transporte : Requiere
+Base <|-- Futuros : Requiere
+@enduml

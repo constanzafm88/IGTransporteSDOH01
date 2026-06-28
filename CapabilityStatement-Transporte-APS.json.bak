@@ -1,0 +1,48 @@
+{
+  "resourceType": "CapabilityStatement",
+  "id": "CapabilityStatement-Transporte-APS",
+  "status": "active",
+  "date": "2026-05-07",
+  "publisher": "Biomédica UV - CESFAM Digital",
+  "kind": "instance",
+  "software": {
+    "name": "Servidor de Interoperabilidad SDOH Chile"
+  },
+  "implementationGuide": [
+    "http://biomedica.uv.cl/fhir/ig/transporte/ImplementationGuide/ig.transporte.sdoh"
+  ],
+  "fhirVersion": "4.0.1",
+  "format": ["json", "xml"],
+  "rest": [
+    {
+      "mode": "server",
+      "documentation": "Este servidor soporta la captura y transformación de determinantes sociales de salud (Transporte) para la Atención Primaria en Chile.",
+      "resource": [
+        {
+          "type": "Observation",
+          "profile": "http://biomedica.uv.cl/fhir/ig/transporte/StructureDefinition/observacion-sdoh",
+          "interaction": [
+            {"code": "read"},
+            {"code": "create"},
+            {"code": "search-type"}
+          ]
+        },
+        {
+          "type": "QuestionnaireResponse",
+          "profile": "http://biomedica.uv.cl/fhir/ig/transporte/StructureDefinition/respuesta-transporte-sdoh",
+          "interaction": [
+            {"code": "create"},
+            {"code": "read"}
+          ]
+        }
+      ],
+      "operation": [
+        {
+          "name": "transform",
+          "definition": "http://hl7.org/fhir/OperationDefinition/StructureMap-transform",
+          "documentation": "Operación para transformar QuestionnaireResponse en Observations usando FML."
+        }
+      ]
+    }
+  ]
+}

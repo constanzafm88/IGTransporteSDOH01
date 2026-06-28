@@ -1,0 +1,102 @@
+{
+  "resourceType": "QuestionnaireResponse",
+  "id": "EjemploRespuestaPaciente01",
+  "meta": {
+    "profile": [
+      "http://biomedica.uv.cl/fhir/ig/transporte/StructureDefinition/respuesta-transporte-sdoh"
+    ]
+  },
+  "questionnaire": "http://example.org/ig/transporte/Questionnaire/CuestionarioTransporteSDOH",
+  "status": "completed",
+  "authored": "2026-05-06T11:00:00Z",
+  "subject": {
+    "reference": "Patient/EjemploPaciente"
+  },
+  "identifier": {
+    "value": "uuid-ejemplo-12345",
+    "system": "http://CESFAM-biomedica.cl/ids"
+  },
+  "item": [
+    {
+      "linkId": "evaluacionTransporte",
+      "item": [
+        {
+          "linkId": "93030-5",
+          "answer": [
+            {
+              "valueBoolean": true
+            }
+          ]
+        },
+        {
+          "linkId": "99594-4",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "LA33093-8",
+                "system": "http://loinc.org",
+                "display": "Yes, it has kept me from medical appointments or getting medications"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "101351-5",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "LA30133-5",
+                "system": "http://loinc.org",
+                "display": "Yes, it has kept me from medical appointments or from getting my medications"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "93671-6",
+          "answer": [
+            {
+              "valueBoolean": true
+            }
+          ]
+        },
+        {
+          "linkId": "104015-3",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "LA10082-8",
+                "system": "http://loinc.org",
+                "display": "Sometimes"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "104016-1",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "LA10044-8",
+                "system": "http://loinc.org",
+                "display": "Often"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "104017-9",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "LA6270-8",
+                "system": "http://loinc.org",
+                "display": "Never"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

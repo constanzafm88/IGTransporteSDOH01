@@ -1,0 +1,33 @@
+@startuml
+skinparam monochrome true
+
+actor "Paciente" as Paciente
+participant "QuestionnaireResponse\n(Source)" as QR
+participant "StructureMap\n(TransporteToObs)" as Map
+participant "Observation\n(Target)" as Obs
+participant "Bundle\n(Target)" as Bundle
+
+Paciente -> QR : Responde cuestionario
+activate Paciente
+QR -> Map : Entrada de datos (source)
+activate QR
+activate Map
+
+loop Por cada item/pregunta
+  Map -> Obs : Crear Recurso (create)
+  activate Obs
+  Map -> Obs : Asignar subject (Paciente)
+  Map -> Obs : Asignar status = 'final'
+  Map -> Obs : Inyectar category (social-history, sdoh, transporte)
+  Map -> Obs : Resolver code (código LOINC de linkId)
+  Map -> Obs : Resolver value[x] (polimórfico: bool o CodeableConcept)
+  Map -> Bundle : Agregar como entrada (entry.resource)
+  deactivate Obs
+end
+
+Bundle --> Map : Retorna Bundle (collection)
+deactivate Map
+deactivate QR
+deactivate Paciente
+
+@enduml

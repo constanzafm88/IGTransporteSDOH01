@@ -1,0 +1,37 @@
+@startuml
+skinparam monochrome true
+
+actor Paciente
+participant "Ficha Clínica Electrónica\n(EHR / FCE)" as EHR
+actor "Trabajador(a) Social" as TS
+actor "Enfermero(a)" as ENF
+
+Paciente -> EHR : Responde cuestionario (QuestionnaireResponse)
+activate Paciente
+activate EHR
+
+note over EHR : Procesa respuestas y\ngenera observaciones (Observation)\nmediante StructureMap (FML)
+deactivate EHR
+
+TS -> EHR : Revisa observaciones de tamizaje
+activate TS
+activate EHR
+deactivate EHR
+
+TS -> EHR : Registra diagnóstico de riesgo (Condition)
+activate EHR
+note over EHR : Almacena problema social\ny activa alerta de transporte
+deactivate EHR
+deactivate TS
+
+ENF -> EHR : Consulta ficha clínica del paciente
+activate ENF
+activate EHR
+EHR -> ENF : Visualiza alerta de transporte activa
+deactivate EHR
+
+ENF -> Paciente : Coordina intervención o traslado
+deactivate ENF
+deactivate Paciente
+
+@enduml

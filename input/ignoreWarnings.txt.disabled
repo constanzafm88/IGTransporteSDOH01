@@ -1,0 +1,33 @@
+== Suppressed Messages ==
+
+# Terminology server is not available offline (known ValueSet and validation errors)
+%No server available%
+%corriendo sin servicios terminológicos%
+%porque no hay servicio terminológico%
+
+# Local/Chilean URL resolution warnings (offline environment)
+%http://registrocivil.cl/run%
+%https://registrodeestablecimientos.minsal.cl%
+%http://CESFAM-biomedica.cl/ids%
+
+# Core CL locale and display warnings
+%There are no valid display names found for the code%
+
+# Experimental Minsal EIS CodeSystem warning
+%Reference to experimental CodeSystem https://interoperabilidad.minsal.cl/fhir/ig/eis/CodeSystem/eis-TituloProfesional-CS%
+
+# Unused template HTML fragments warnings
+%The HTML fragment 'ip-statements.xhtml' is not included%
+%An HTML fragment from the set [cross-version-analysis.xhtml, cross-version-analysis-inline.xhtml] is not included%
+%An HTML fragment from the set [dependency-table.xhtml, dependency-table-short.xhtml, dependency-table-nontech.xhtml] is not included%
+%The HTML fragment 'globals-table.xhtml' is not included%
+
+# CL Core / Terminology versioning conflict warning for v2-0116 ValueSet match
+%There are multiple different potential matches for the url 'http://terminology.hl7.org/ValueSet/v2-0116'%
+
+# LOINC status warnings for offline compile
+%The value set references CodeSystem 'http://loinc.org' which has status 'not-present'%
+
+# Gravity temporary CodeSystem WG publisher mismatch (inherent to mock definition)
+%The nominated WG 'cgp' means that the publisher should be 'HL7 International / Cross-Group Projects' but 'Curso UV' was found%
+%The nominated WG 'cgp' means that the contact url should be 'http://www.hl7.org/Special/committees/cgp' but it was not found%

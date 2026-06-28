@@ -1,0 +1,1 @@
+# Archivo de advertencias omitidas (vacio para mostrar todas las advertencias)

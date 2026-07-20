@@ -1,26 +1,22 @@
 @startuml
-left to right direction
-skinparam packageStyle rectangle
-skinparam actorStyle awesome
 skinparam monochrome true
+skinparam shadowing false
+skinparam actorStyle awesome
+skinparam defaultFontName Arial
+skinparam DefaultFontSize 12
+left to right direction
 
-actor "Paciente" as pac
-actor "Trabajador(a) Social" as ts
-actor "Enfermero(a) de Cabecera" as enf
+actor "Paciente Hipertenso" as Paciente
+actor "Trabajador(a) Social" as TS
+actor "Enfermero(a) Cardiovascular" as Enfermero
 
-package "CESFAM Las Cabras - Control Cardiovascular" {
-  usecase "Responder Cuestionario de Tamizaje\n(QuestionnaireResponse)" as UC1
-  usecase "Registrar Diagnóstico Social\n(Condition)" as UC2
-  usecase "Visualizar Alerta de\nInseguridad de Transporte" as UC3
-  usecase "Coordinar Alternativas\nAsistenciales" as UC4
+rectangle "CESFAM Las Cabras\nPrograma Salud Cardiovascular" {
+    usecase "Responder cuestionario de tamizaje" as UC1
+    usecase "Registrar diagnóstico social\n(Validar Condition con evidencia)" as UC2
+    usecase "Visualizar alerta y coordinar\nalternativas asistenciales" as UC3
 }
 
-pac --> UC1
-ts --> UC2
-enf --> UC3
-enf --> UC4
-
-UC2 .> UC1 : <<usa evidencia>>
-UC4 .> UC3 : <<requiere>>
-
+Paciente --> UC1
+TS --> UC2
+Enfermero --> UC3
 @enduml

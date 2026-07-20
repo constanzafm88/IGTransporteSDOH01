@@ -1,37 +1,22 @@
 @startuml
+left to right direction
 skinparam monochrome true
+skinparam shadowing false
+skinparam actorStyle awesome
+skinparam defaultFontName Arial
+skinparam DefaultFontSize 12
 
-actor Paciente
-participant "Ficha Clínica Electrónica\n(EHR / FCE)" as EHR
+actor Paciente as P
 actor "Trabajador(a) Social" as TS
-actor "Enfermero(a)" as ENF
+actor "Profesional APS" as PA
 
-Paciente -> EHR : Responde cuestionario (QuestionnaireResponse)
-activate Paciente
-activate EHR
+rectangle "CESFAM Las Cabras\nSeguimiento Preventivo" {
+  usecase "Responder cuestionario\nde tamizaje" as UC1
+  usecase "Registrar diagnóstico\nsocial" as UC2
+  usecase "Visualizar alerta y\ncontextualizar inasistencias" as UC3
+}
 
-note over EHR : Procesa respuestas y\ngenera observaciones (Observation)\nmediante StructureMap (FML)
-deactivate EHR
-
-TS -> EHR : Revisa observaciones de tamizaje
-activate TS
-activate EHR
-deactivate EHR
-
-TS -> EHR : Registra diagnóstico de riesgo (Condition)
-activate EHR
-note over EHR : Almacena problema social\ny activa alerta de transporte
-deactivate EHR
-deactivate TS
-
-ENF -> EHR : Consulta ficha clínica del paciente
-activate ENF
-activate EHR
-EHR -> ENF : Visualiza alerta de transporte activa
-deactivate EHR
-
-ENF -> Paciente : Coordina intervención o traslado
-deactivate ENF
-deactivate Paciente
-
+P --> UC1
+TS --> UC2
+PA --> UC3
 @enduml

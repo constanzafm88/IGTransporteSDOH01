@@ -1,0 +1,49 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam DefaultFontSize 12
+skinparam packageStyle rectangle
+
+class "CuestionarioTransporteSDOH\n(Questionnaire)" as Q <<Profile>> {
+  + url: Canonical
+}
+
+class "RespuestaTransporteSDOH\n(QuestionnaireResponse)" as QR <<Profile>> {
+  + questionnaire: Reference(Q)
+  + subject: Reference(Paciente)
+}
+
+class "ObservacionSDOH\n(Observation)" as Obs <<Profile>> {
+  + derivedFrom: Reference(QR)
+  + subject: Reference(Paciente)
+  + performer: Reference(RolProfesional)
+}
+
+class "CondicionSDOH\n(Condition)" as Cond <<Profile>> {
+  + evidence.detail: Reference(Obs)
+  + subject: Reference(Paciente)
+  + asserter: Reference(RolProfesional)
+}
+
+class "ConsentimientoInformadoSDOH\n(Consent)" as Cons <<Profile>> {
+  + patient: Reference(Paciente)
+}
+
+class "PacienteTransporteSDOH\n(Patient)" as Pac <<Profile>> {
+}
+
+class "RolProfesionalSDOH\n(PractitionerRole)" as Rol <<Profile>> {
+}
+
+QR --> Q : " questionnaire\n (asocia)"
+QR --> Pac : " subject"
+Obs --> QR : " derivedFrom\n (evidencia tamizaje)"
+Obs --> Pac : " subject"
+Obs --> Rol : " performer\n (encuestador)"
+Cond --> Obs : " evidence.detail\n (evidencia clínica)"
+Cond --> Pac : " subject"
+Cond --> Rol : " asserter\n (diagnosticador)"
+Cons --> Pac : " patient\n (autorizante)"
+
+@enduml

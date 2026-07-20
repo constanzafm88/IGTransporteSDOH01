@@ -28,7 +28,22 @@ Esta arquitectura evita silos de información y asegura que los sistemas de regi
 
 ---
 
-## 3. Flujo de Transformación Semántica (FML)
+## 3. Marco de Modelado de Datos (Data Modeling Framework)
+
+Inspirado en el estándar de la guía internacional **Gravity SDOH Clinical Care**, el siguiente diagrama de modelado de datos refleja las estructuras primarias y las relaciones lógicas entre cada uno de los perfiles FHIR definidos en esta guía chilena de transporte:
+
+<div style="text-align: center; margin: 25px 0;">
+  {% include data-modeling-framework.svg %}
+</div>
+
+* **Tamizaje (Assessment)**: Se recopila la información del paciente mediante una respuesta al tamizaje (`RespuestaTransporteSDOH`) basada en un cuestionario estructurado (`CuestionarioTransporteSDOH`).
+* **Representación de Evidencia**: Cada pregunta de la encuesta se traduce semánticamente en un recurso `ObservacionSDOH` que apunta a su cuestionario origen usando la relación `derivedFrom`.
+* **Diagnóstico Clínico-Social**: Si existen problemas de transporte, el profesional registra una `CondicionSDOH` que agrega a su lista de problemas, la cual enlaza las observaciones previas en su elemento `evidence.detail` como respaldo clínico.
+* **Consentimiento**: El recurso `ConsentimientoInformadoSDOH` regula éticamente el tratamiento de estos datos clínicos y sociales del paciente (`Patient`).
+
+---
+
+## 4. Flujo de Transformación Semántica (FML)
 
 Para automatizar la extracción de datos desde el cuestionario de tamizaje hacia observaciones clínicas estructuradas, la guía define reglas de mapeo mediante el lenguaje **FML (FHIR Mapping Language)** a través de un `StructureMap`. Esto evita que el personal clínico deba digitalizar doblemente la información.
 

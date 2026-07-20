@@ -21,7 +21,7 @@ Instance: ProfesionalSocialEjemplo
 InstanceOf: CorePrestadorCl
 Title: "Profesional de Salud de Ejemplo"
 Description: "Profesional de salud (Trabajadora Social) del CESFAM Las Cabras encargada de evaluar y registrar la condición de transporte."
-Usage: #inline
+Usage: #example
 
 * active = true
 * name[0].family = "Valenzuela"
@@ -38,7 +38,7 @@ Instance: CESFAMLasCabras
 InstanceOf: CoreOrganizacionCl
 Title: "Centro de Salud Familiar Las Cabras"
 Description: "Establecimiento de atención primaria de salud en Las Cabras donde se realiza la encuesta de transporte."
-Usage: #inline
+Usage: #example
 
 * active = true
 * name = "CESFAM Las Cabras"
@@ -49,7 +49,7 @@ Instance: LocalizacionCESFAMLasCabras
 InstanceOf: LocalizacionFisicaSDOH
 Title: "Ubicación del CESFAM Las Cabras"
 Description: "Ubicación física y geográfica del Centro de Salud Familiar Las Cabras."
-Usage: #inline
+Usage: #example
 
 * status = #active
 * name = "CESFAM Las Cabras - Sector Azul"
@@ -64,7 +64,7 @@ Instance: RolProfesionalSocialEjemplo
 InstanceOf: RolProfesionalSDOH
 Title: "Rol de Trabajadora Social - Ana Valenzuela"
 Description: "Rol institucional y profesional de la Trabajadora Social Ana Valenzuela en el CESFAM Las Cabras, con codificación del MINSAL."
-Usage: #inline
+Usage: #example
 
 * active = true
 * practitioner = Reference(ProfesionalSocialEjemplo)

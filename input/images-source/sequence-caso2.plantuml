@@ -1,0 +1,25 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam DefaultFontSize 12
+
+actor Paciente
+participant "FCE / EHR" as EHR
+actor "Trabajador(a)\nSocial" as TS
+actor "Profesional APS" as PA
+
+Paciente -> EHR : Responde cuestionario
+note right of EHR
+Se ejecuta el StructureMap (FML)
+y se generan las Observations
+end note
+
+TS -> EHR : Revisa observaciones
+TS -> EHR : Registra Condition
+
+PA -> EHR : Consulta ficha clínica
+EHR --> PA : Muestra alerta activa
+
+PA -> EHR : Registra plan de acción
+@enduml

@@ -34,6 +34,11 @@ Este flujo describe cómo se evalúan las dificultades de traslado de un pacient
   {% include usecase-caso1.svg %}
 </div>
 
+#### Diagrama de Secuencia - Caso de Uso 1
+<div style="text-align: center; margin: 20px 0;">
+  {% include sequence-caso1.svg %}
+</div>
+
 ---
 
 ### Caso de Uso 2: Identificación de Pacientes con Riesgo de Inasistencia por Barreras de Transporte
@@ -45,7 +50,12 @@ Este flujo permite anticiparse y gestionar la continuidad del cuidado en control
 3. **Visibilidad Asistencial**: La condición y sus evidencias de respaldo quedan disponibles de inmediato en la FCE del paciente.
 4. **Visualización y Contextualización**: Cualquier profesional del equipo de cabecera (médicos, matronas, nutricionistas, etc.) que atienda o programe citas para el paciente puede visualizar esta alerta de transporte. Esto permite contextualizar a tiempo inasistencias previas, bajas adherencias o dificultades de acceso, evitando atribuirlas erróneamente a falta de compromiso o interés del paciente.
 
-#### Diagrama de Secuencia - Caso de Uso 2
+#### Diagrama de Casos de Uso - Caso de Uso 2
 <div style="text-align: center; margin: 20px 0;">
   {% include usecase-caso2.svg %}
+</div>
+
+#### Diagrama de Secuencia - Caso de Uso 2
+<div style="text-align: center; margin: 20px 0;">
+  {% include sequence-caso2.svg %}
 </div>

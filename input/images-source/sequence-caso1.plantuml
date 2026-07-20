@@ -1,0 +1,55 @@
+@startuml
+autonumber
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam DefaultFontSize 12
+skinparam BoxPadding 10
+skinparam actorStyle awesome
+
+actor "Paciente Hipertenso" as Paciente
+participant "FCE / EHR" as Sistema
+actor "Trabajador(a) Social" as TS
+actor "Enfermero(a) Cardiovascular" as Enfermero
+
+autonumber stop
+== Paso 1: Tamizaje en Pre-Consulta ==
+autonumber 1
+activate Paciente
+Paciente -> Sistema: Responde cuestionario de transporte
+deactivate Paciente
+activate Sistema
+note over Sistema
+  Se ejecuta StructureMap (FML):
+  Transforma QuestionnaireResponse
+  en recursos Observation (ObservacionSDOH)
+end note
+deactivate Sistema
+
+autonumber stop
+== Paso 2: Evaluación y Diagnóstico Social ==
+autonumber 2
+activate TS
+TS -> Sistema: Revisa observaciones resultantes
+activate Sistema
+TS -> Sistema: Registra Condition (Ej. SNOMED 713458007)
+note over Sistema
+  El sistema enlaza las Observation como evidencia
+  (Condition.evidence.detail) y guarda al
+  Trabajador Social como Autor (asserter).
+end note
+deactivate Sistema
+deactivate TS
+
+autonumber stop
+== Paso 3: Control Cardiovascular y Acción ==
+autonumber 4
+activate Enfermero
+Enfermero -> Sistema: Consulta Ficha Clínica en Control Crónico
+activate Sistema
+Sistema --> Enfermero: Despliega alerta "Inseguridad de Transporte Activa"
+Enfermero -> Sistema: Registra alternativa asistencial\n(Visita domiciliaria o despacho de fármacos)
+deactivate Sistema
+deactivate Enfermero
+
+@enduml

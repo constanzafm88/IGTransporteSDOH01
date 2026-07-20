@@ -1,31 +1,24 @@
 @startuml
 skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam DefaultFontSize 12
 
-actor "Paciente" as pac
-participant "Cuestionario\n(QuestionnaireResponse)" as QR
-participant "Motor FML\n(StructureMap)" as FML
-participant "Observaciones\n(ObservationSDOH)" as OBS
-actor "Trabajador(a)\nSocial" as TS
-participant "Diagnóstico\n(CondicionSDOH)" as COND
+title Ciclo de Vida del Dato (Tamizaje a Diagnóstico Social)
 
-pac -> QR: 1. Responde tamizaje digital
-activate QR
+start
 
-QR -> FML: 2. Carga datos de tamizaje
-activate FML
+:Paciente;
+:Questionnaire (Cuestionario);
+:QuestionnaireResponse;
+:StructureMap (FML);
+:Bundle Collection (Observations);
+:Validación del flujo (opcional);
+:Bundle Transaction;
+:FHIR Server;
+:Base de datos;
+:Búsquedas FHIR;
+:Condition (creado posteriormente por regla clínica);
 
-FML -> OBS: 3. Ejecuta reglas y genera observaciones (LOINC)
-activate OBS
-deactivate FML
-deactivate QR
-
-TS -> OBS: 4. Evalúa observaciones (evidencia)
-activate TS
-
-TS -> COND: 5. Confirma y registra diagnóstico social (SNOMED CT)
-activate COND
-deactivate TS
-deactivate OBS
-deactivate COND
-
+end
 @enduml

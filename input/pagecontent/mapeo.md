@@ -116,3 +116,22 @@ Para validar la aplicabilidad en el ecosistema de salud pública nacional, la gu
 3. **Paciente**: Se modela al paciente Juan Pérez, residente rural del sector Las Cabras, con RUN chileno oficial.
 4. **Consentimiento**: Se registra el consentimiento informado (`Consent`) en el cual Juan autoriza compartir sus evaluaciones sociales con los profesionales del CESFAM para optimizar su plan de tratamiento.
 5. **Simulación**: Al procesar la encuesta simulada (`EjemploRespuestaPaciente01`), el motor FML procesa correctamente las 7 respuestas y genera automáticamente las observaciones estructuradas de transporte que respaldan clínicamente la posterior asignación del diagnóstico social en su lista de problemas.
+
+---
+
+## 4. Recomendaciones de Implementación (Collection vs. Transaction)
+
+Para los desarrolladores de sistemas informáticos clínicos (EHR), la guía de implementación proporciona dos ejemplos de Bundles diseñados para propósitos diferentes en el flujo de integración:
+
+> [!NOTE]
+> **Nota de implementación:** El `StructureMap` `TransporteToObs` transforma un `QuestionnaireResponse` en un `Bundle` de tipo `collection` que contiene las observaciones estructuradas resultantes del tamizaje. Posteriormente, una aplicación implementadora puede reutilizar dichas observaciones para construir un `Bundle` de tipo `transaction`, agregando las instrucciones `request` necesarias para persistir los recursos en un servidor FHIR mediante una única operación transaccional. Por ende, **el Bundle Transaction es un ejemplo de persistencia construido por la aplicación implementadora a partir de los recursos generados por el StructureMap.**
+
+### A. Bundle de tipo `collection` ([Ejemplo: BundleTransporteLasCabras](Bundle-BundleTransporteLasCabras.html))
+* **Propósito:** Es el formato de salida directa del motor de mapeo (FML) en la memoria de la aplicación.
+* **Características:** Agrupa de manera lógica y limpia las 7 `Observations` generadas a partir del formulario.
+* **Limitación en Servidores:** Si se guarda este bundle completo como un único recurso Bundle (`POST /Bundle`) en el servidor FHIR, las observaciones quedarán anidadas en el documento y **no** se indexarán como recursos independientes, impidiendo realizar búsquedas poblacionales (ej. `GET /Observation?code=...`).
+
+### B. Bundle de tipo `transaction` ([Ejemplo: BundleTransaccionLasCabras](Bundle-BundleTransaccionLasCabras.html))
+* **Propósito:** Es el formato **oficial y recomendado para la persistencia** de los resultados en el servidor FHIR central de la institución.
+* **Estructura Real en Producción:** Contiene únicamente los recursos dinámicos generados por el acto clínico: la respuesta a la encuesta (`QuestionnaireResponse`) y las 7 observaciones (`Observation`). Hace referencia a los recursos lógicos que ya existen de forma previa en el servidor (Paciente, Localización, Profesional).
+* **Funcionamiento:** Se envía mediante un único `POST /` al endpoint raíz del servidor FHIR. Cada recurso dentro de las entradas (`entry`) lleva una instrucción `PUT` con su respectiva URL relativa. El servidor FHIR procesa la transacción de manera atómica (guarda todo o nada) y almacena cada observación como un recurso suelto e indexado en el expediente clínico del paciente.

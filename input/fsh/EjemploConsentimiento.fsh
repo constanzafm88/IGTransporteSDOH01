@@ -8,7 +8,11 @@ Usage: #inline
 * scope = http://terminology.hl7.org/CodeSystem/consentscope#patient-privacy
 * category = http://loinc.org#59284-0 "Consent Document"
 * patient = Reference(EjemploPaciente)
-* dateTime = "2026-06-03T10:00:00Z"
+* dateTime = "2026-06-03T10:00:00-04:00"
 * performer[0] = Reference(EjemploPaciente)
 * organization = Reference(CESFAMLasCabras)
+
+* policy.authority = "https://biomedica.uv.cl"
+* policy.uri = "https://biomedica.uv.cl/fhir/ig/transporte/politicas/consentimiento-sdoh"
+
 * provision.type = #permit

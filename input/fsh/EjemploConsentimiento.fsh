@@ -11,5 +11,4 @@ Usage: #inline
 * dateTime = "2026-06-03T10:00:00Z"
 * performer[0] = Reference(EjemploPaciente)
 * organization = Reference(CESFAMLasCabras)
-* policyRule = http://terminology.hl7.org/CodeSystem/consentpolicycodes#cric
 * provision.type = #permit

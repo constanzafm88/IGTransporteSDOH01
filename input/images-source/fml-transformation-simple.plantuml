@@ -1,0 +1,12 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam DefaultFontSize 12
+
+title Flujo de Transformación Semántica
+
+[QuestionnaireResponse] --> [StructureMap (FML)] : Entrada
+[StructureMap (FML)] --> [Bundle (collection)] : Salida (7 Observations)
+
+@enduml

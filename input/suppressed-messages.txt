@@ -1,0 +1,3 @@
+# Suppressed Messages
+rule=suppress
+%No server available%

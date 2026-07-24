@@ -43,3 +43,4 @@ parameters:
   special-url:
     - http://snomed.info/sct
     - http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/sdohcc-temporary-codes
+    - http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/SDOHCC-CodeSystemTemporaryCodes

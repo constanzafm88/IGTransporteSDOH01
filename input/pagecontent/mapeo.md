@@ -1,6 +1,6 @@
 # Mapeo Estructural y Transformación Automática (FML)
 
-Uno de los principales aportes de ingeniería de software de esta especificación es la automatización del flujo de datos mediante el lenguaje de mapeo oficial de FHIR: **FHIR Mapping Language (FML)** y la definición del recurso **StructureMap**. Esto elimina de raíz la doble digitación y agiliza la toma de decisiones.
+Uno de los principales aportes de ingeniería de software de esta especificación es la automatización del flujo de datos mediante el lenguaje de mapeo oficial de FHIR: **FHIR Mapping Language (FML)** y la definición del recurso **StructureMap**. Esto reduce la necesidad de registrar manualmente la misma información en múltiples estructuras del sistema y agiliza la toma de decisiones.
 
 ---
 
@@ -14,7 +14,7 @@ En la red de salud pública chilena, los profesionales de APS dedican un porcent
 
 ---
 
-## 2. Definición del Mapa Lógico en FML (`TransporteToObs`)
+## 2. Implementación del StructureMap en FHIR Mapping Language (FML) (`TransporteToObs`)
 
 A continuación, se detalla el código completo del mapa de transformación computable definido en la guía de implementación ([TransporteToObs.fml](StructureMap-TransporteToObs.html)):
 
@@ -107,31 +107,24 @@ A continuación se detalla visualmente cómo el motor FML procesa el cuestionari
 
 ---
 
-## 3. Escenario de Prueba Global: CESFAM Las Cabras
+## 3. Escenario de Referencia: CESFAM Las Cabras
 
-Para validar la aplicabilidad en el ecosistema de salud pública nacional, la guía define un **Caso de Prueba Extremo a Extremo** basado en el **CESFAM Las Cabras** (Provincia de Cachapoal):
+Con el propósito de contextualizar la implementación propuesta en un escenario representativo de la Atención Primaria de Salud rural, la presente guía utiliza como referencia el CESFAM Las Cabras. La selección de este establecimiento permitió definir un caso de uso alineado con las necesidades observadas durante el levantamiento de requerimientos y ejemplificar los artefactos desarrollados en la guía.
 
-1. **Localización**: Se define el centro de salud familiar real con su dirección y código comunal CUT (`06107`).
-2. **Rol Encuestador**: Se define a la Trabajadora Social Ana Valenzuela (`PractitionerRole` y `Practitioner` de APS) con su respectiva credencial del Registro Nacional de Prestadores Individuales del MINSAL.
-3. **Paciente**: Se modela al paciente Juan Pérez, residente rural del sector Las Cabras, con RUN chileno oficial.
-4. **Consentimiento**: Se registra el consentimiento informado (`Consent`) en el cual Juan autoriza compartir sus evaluaciones sociales con los profesionales del CESFAM para optimizar su plan de tratamiento.
-5. **Simulación**: Al procesar la encuesta simulada (`EjemploRespuestaPaciente01`), el motor FML procesa correctamente las 7 respuestas y genera automáticamente las observaciones estructuradas de transporte que respaldan clínicamente la posterior asignación del diagnóstico social en su lista de problemas.
+1. **Localización**: Se utiliza como referencia el CESFAM Las Cabras y su contexto territorial.
+2. **Profesional**: Se modela un rol profesional representativo del proceso de tamizaje.
+3. **Paciente**: Se define un paciente ficticio representativo del contexto rural.
+4. **Consentimiento**: Se incluye el consentimiento informado como parte del flujo propuesto.
+5. **Caso de ejemplo**: A partir de un `QuestionnaireResponse` simulado, el `StructureMap` genera automáticamente siete recursos `Observation`, ilustrando el funcionamiento de la transformación.
 
 ---
 
 ## 4. Recomendaciones de Implementación (Collection vs. Transaction)
 
-Para los desarrolladores de sistemas informáticos clínicos (EHR), la guía de implementación proporciona dos ejemplos de Bundles diseñados para propósitos diferentes en el flujo de integración:
-
-> [!NOTE]
-> **Nota de implementación:** El `StructureMap` `TransporteToObs` transforma un `QuestionnaireResponse` en un `Bundle` de tipo `collection` que contiene las observaciones estructuradas resultantes del tamizaje. Posteriormente, una aplicación implementadora puede reutilizar dichas observaciones para construir un `Bundle` de tipo `transaction`, agregando las instrucciones `request` necesarias para persistir los recursos en un servidor FHIR mediante una única operación transaccional. Por ende, **el Bundle Transaction es un ejemplo de persistencia construido por la aplicación implementadora a partir de los recursos generados por el StructureMap.**
+Para los desarrolladores de sistemas informáticos clínicos (EHR), la especificación provee dos tipos de Bundles adaptados a distintas fases del flujo de integración:
 
 ### A. Bundle de tipo `collection` ([Ejemplo: BundleTransporteLasCabras](Bundle-BundleTransporteLasCabras.html))
-* **Propósito:** Es el formato de salida directa del motor de mapeo (FML) en la memoria de la aplicación.
-* **Características:** Agrupa de manera lógica y limpia las 7 `Observations` generadas a partir del formulario.
-* **Limitación en Servidores:** Si se guarda este bundle completo como un único recurso Bundle (`POST /Bundle`) en el servidor FHIR, las observaciones quedarán anidadas en el documento y **no** se indexarán como recursos independientes, impidiendo realizar búsquedas poblacionales (ej. `GET /Observation?code=...`).
+El Bundle de tipo `collection` representa únicamente el resultado de la transformación realizada por el `StructureMap`. No está diseñado para persistir recursos en un servidor FHIR. Su propósito es agrupar en memoria de la aplicación las 7 observaciones generadas a partir de la encuesta.
 
 ### B. Bundle de tipo `transaction` ([Ejemplo: BundleTransaccionLasCabras](Bundle-BundleTransaccionLasCabras.html))
-* **Propósito:** Es el formato **oficial y recomendado para la persistencia** de los resultados en el servidor FHIR central de la institución.
-* **Estructura Real en Producción:** Contiene únicamente los recursos dinámicos generados por el acto clínico: la respuesta a la encuesta (`QuestionnaireResponse`) y las 7 observaciones (`Observation`). Hace referencia a los recursos lógicos que ya existen de forma previa en el servidor (Paciente, Localización, Profesional).
-* **Funcionamiento:** Se envía mediante un único `POST /` al endpoint raíz del servidor FHIR. Cada recurso dentro de las entradas (`entry`) lleva una instrucción `PUT` con su respectiva URL relativa. El servidor FHIR procesa la transacción de manera atómica (guarda todo o nada) y almacena cada observación como un recurso suelto e indexado en el expediente clínico del paciente.
+Para persistir los recursos de forma individual e indexada, es necesario construir un Bundle de tipo `transaction`, incorporando las instrucciones REST correspondientes (`PUT` o `POST` y la URL destino) para cada entrada. Al ser enviado al endpoint raíz del servidor FHIR, este procesa los recursos de forma atómica y los almacena por separado, habilitando futuras búsquedas clínicas.

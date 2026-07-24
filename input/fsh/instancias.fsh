@@ -1,4 +1,4 @@
-Alias: $SDOHCC-TemporaryCodes = http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/sdohcc-temporary-codes
+Alias: $SDOHCC-TemporaryCodes = http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/SDOHCC-CodeSystemTemporaryCodes
 Alias: $ObsCat = http://terminology.hl7.org/CodeSystem/observation-category
 
 // ============================================================================
@@ -11,8 +11,8 @@ InstanceOf: ObservacionSDOH
 Usage: #inline
 * status = #final
 * category[social-history] = $ObsCat#social-history
-* category[sdoh-category] = $SDOHCC-TemporaryCodes#sdoh
-* category[2] = $SDOHCC-TemporaryCodes#transportation-insecurity
+* category[sdoh] = $SDOHCC-TemporaryCodes#sdoh
+* category[sdoh-domain] = $SDOHCC-TemporaryCodes#transportation-insecurity
 * code = http://loinc.org#93030-5 "Has lack of transportation kept you from medical appointments, meetings, work, or from getting things needed for daily living"
 * subject = Reference(EjemploPaciente)
 * performer = Reference(RolProfesionalSocialEjemplo)
@@ -25,8 +25,8 @@ InstanceOf: ObservacionSDOH
 Usage: #inline
 * status = #final
 * category[social-history] = $ObsCat#social-history
-* category[sdoh-category] = $SDOHCC-TemporaryCodes#sdoh
-* category[2] = $SDOHCC-TemporaryCodes#transportation-insecurity
+* category[sdoh] = $SDOHCC-TemporaryCodes#sdoh
+* category[sdoh-domain] = $SDOHCC-TemporaryCodes#transportation-insecurity
 * code = http://loinc.org#99594-4 "Delayed medical care due to distance or lack of transportation"
 * subject = Reference(EjemploPaciente)
 * performer = Reference(RolProfesionalSocialEjemplo)
@@ -39,8 +39,8 @@ InstanceOf: ObservacionSDOH
 Usage: #inline
 * status = #final
 * category[social-history] = $ObsCat#social-history
-* category[sdoh-category] = $SDOHCC-TemporaryCodes#sdoh
-* category[2] = $SDOHCC-TemporaryCodes#transportation-insecurity
+* category[sdoh] = $SDOHCC-TemporaryCodes#sdoh
+* category[sdoh-domain] = $SDOHCC-TemporaryCodes#transportation-insecurity
 * code = http://loinc.org#101351-5 "Has lack of transportation kept you from medical appointments, meetings, work, or from getting things needed for daily living during assessment period [CMS Assessment]"
 * subject = Reference(EjemploPaciente)
 * performer = Reference(RolProfesionalSocialEjemplo)
@@ -53,8 +53,8 @@ InstanceOf: ObservacionSDOH
 Usage: #inline
 * status = #final
 * category[social-history] = $ObsCat#social-history
-* category[sdoh-category] = $SDOHCC-TemporaryCodes#sdoh
-* category[2] = $SDOHCC-TemporaryCodes#transportation-insecurity
+* category[sdoh] = $SDOHCC-TemporaryCodes#sdoh
+* category[sdoh-domain] = $SDOHCC-TemporaryCodes#transportation-insecurity
 * code = http://loinc.org#93671-6 "Do you have trouble finding or paying for transportation [WellRx]"
 * subject = Reference(EjemploPaciente)
 * performer = Reference(RolProfesionalSocialEjemplo)
@@ -67,8 +67,8 @@ InstanceOf: ObservacionSDOH
 Usage: #inline
 * status = #final
 * category[social-history] = $ObsCat#social-history
-* category[sdoh-category] = $SDOHCC-TemporaryCodes#sdoh
-* category[2] = $SDOHCC-TemporaryCodes#transportation-insecurity
+* category[sdoh] = $SDOHCC-TemporaryCodes#sdoh
+* category[sdoh-domain] = $SDOHCC-TemporaryCodes#transportation-insecurity
 * code = http://loinc.org#104015-3 "How often did you have to reschedule an appointment because of a problem with transportation"
 * subject = Reference(EjemploPaciente)
 * performer = Reference(RolProfesionalSocialEjemplo)
@@ -81,8 +81,8 @@ InstanceOf: ObservacionSDOH
 Usage: #inline
 * status = #final
 * category[social-history] = $ObsCat#social-history
-* category[sdoh-category] = $SDOHCC-TemporaryCodes#sdoh
-* category[2] = $SDOHCC-TemporaryCodes#transportation-insecurity
+* category[sdoh] = $SDOHCC-TemporaryCodes#sdoh
+* category[sdoh-domain] = $SDOHCC-TemporaryCodes#transportation-insecurity
 * code = http://loinc.org#104016-1 "How often did you skip going somewhere because of a problem with transportation"
 * subject = Reference(EjemploPaciente)
 * performer = Reference(RolProfesionalSocialEjemplo)
@@ -95,8 +95,8 @@ InstanceOf: ObservacionSDOH
 Usage: #inline
 * status = #final
 * category[social-history] = $ObsCat#social-history
-* category[sdoh-category] = $SDOHCC-TemporaryCodes#sdoh
-* category[2] = $SDOHCC-TemporaryCodes#transportation-insecurity
+* category[sdoh] = $SDOHCC-TemporaryCodes#sdoh
+* category[sdoh-domain] = $SDOHCC-TemporaryCodes#transportation-insecurity
 * code = http://loinc.org#104017-9 "How often were you not able to leave the house when you wanted to because of a problem with transportation"
 * subject = Reference(EjemploPaciente)
 * performer = Reference(RolProfesionalSocialEjemplo)

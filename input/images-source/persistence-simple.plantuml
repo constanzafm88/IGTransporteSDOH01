@@ -1,0 +1,19 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam DefaultFontSize 12
+
+title Flujo de Persistencia y Consulta FHIR
+
+package "Persistencia" {
+  [Bundle (transaction)] --> [Servidor FHIR] : POST / (Atómico)
+  [Servidor FHIR] --> [Recursos Persistidos] : Desempaqueta e Indexa
+}
+
+package "Consulta y Diagnóstico" {
+  [Recursos Persistidos] --> [Búsquedas FHIR] : GET /Observation
+  [Búsquedas FHIR] --> [Condition] : Evidencia Clínica
+}
+
+@enduml

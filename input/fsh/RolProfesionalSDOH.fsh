@@ -11,7 +11,7 @@ Description: "Perfil de Rol Clínico/Profesional para profesionales de APS invol
 * organization 1..1 MS
 * organization only Reference(CoreOrganizacionCl)
 * code 1..* MS
-* code from https://interoperabilidad.minsal.cl/fhir/ig/eis/ValueSet/eis-TituloProfesional-VS (preferred)
+* code from https://interoperabilidad.minsal.cl/fhir/ig/eis/ValueSet/eis-titulo-profesional-vs (preferred)
 * code ^short = "Rol o título profesional del encuestador"
 * location 0..* MS
 * location only Reference(LocalizacionFisicaSDOH)

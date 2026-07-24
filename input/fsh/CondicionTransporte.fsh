@@ -1,4 +1,4 @@
-Alias: $SDOHCC-TemporaryCodes = http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/sdohcc-temporary-codes
+Alias: $SDOHCC-TemporaryCodes = http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/SDOHCC-CodeSystemTemporaryCodes
 
 Profile: CondicionSDOHSDOH
 Parent: Condition
@@ -25,15 +25,15 @@ Description: "Perfil de Condición para registrar diagnósticos clínico-sociale
 * category[problem-list-item] MS
 * category[problem-list-item] ^short = "Categoría base requerida por FHIR (problem-list-item)"
 
-* category[sdoh-category].coding.system = "http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/sdohcc-temporary-codes"
+* category[sdoh-category].coding.system = "http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/SDOHCC-CodeSystemTemporaryCodes"
 * category[sdoh-category] from vs-categorias-sdoh (extensible)
 * category[sdoh-category] MS
 * category[sdoh-category] ^short = "Categoría específica del determinante social (ej: transporte, alimentación)"
 
-// 3. Restricción del código de diagnóstico usando el binding principal obligatorio de Transporte
+// 3. Restricción del código de diagnóstico usando un binding extensible para todos los dominios SDOH
 * code 1..1 MS
-* code from VSCondicionesTransporte (required)
-* code ^short = "Código de diagnóstico de la condición (16 códigos SNOMED CT de transporte)"
+* code from VSCondicionesTransporte (extensible)
+* code ^short = "Código de diagnóstico de la condición SDOH (extensible a más dominios)"
 
 
 // 4. Sujeto obligado a ser una referencia a un Paciente (flexible y compatible)

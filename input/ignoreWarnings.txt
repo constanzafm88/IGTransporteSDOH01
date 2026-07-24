@@ -1,2 +1,2 @@
 == Suppressed Messages ==
-# Archivo de advertencias omitidas (vacio para mostrar todas las advertencias)
+# Actualmente no se suprime ningún mensaje.

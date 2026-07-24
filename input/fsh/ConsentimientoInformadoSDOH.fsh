@@ -31,10 +31,6 @@ Description: "El consentimiento representa la autorización del paciente para co
 * organization only Reference(CoreOrganizacionCl)
 * organization ^short = "Organización que solicita y gestiona el consentimiento"
 
-* policyRule 1..1 MS
-* policyRule = http://terminology.hl7.org/CodeSystem/consentpolicycodes#cric
-* policyRule ^short = "Regla de política de privacidad (Common Rule Informed Consent)"
-
 * provision 1..1 MS
 * provision.type 1..1 MS
 * provision.type = #permit

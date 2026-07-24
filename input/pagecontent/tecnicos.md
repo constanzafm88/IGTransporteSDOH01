@@ -1,6 +1,6 @@
-# Aspectos Técnicos y Puente Semántico
+# Aspectos Técnicos de la Implementación
 
-El intercambio seguro, fluido y comprensible de información sobre determinantes sociales (SDOH) exige una traducción rigurosa entre el lenguaje del tamizaje respondido por el paciente, el lenguaje clínico-social del profesional y la codificación estadística exigida por la normativa ministerial. Esta sección describe la justificación técnica de la terminología seleccionada y el diseño del "puente semántico" implementado.
+Esta sección presenta las decisiones técnicas adoptadas para la implementación de la guía, incluyendo las terminologías utilizadas, el modelo de información, el proceso de transformación mediante FHIR Mapping Language (FML) y el mecanismo de persistencia de los recursos en un servidor FHIR.
 
 ---
 
@@ -16,39 +16,33 @@ Para posibilitar un intercambio semántico seguro y transparente, esta guía imp
 
 ---
 
-## 2. Coherencia Semántica en el Proceso
+## 2. Modelo de Información (Modelado de Datos)
 
-El puente semántico garantiza que el dato recolectado siga un ciclo de vida coherente:
-1. **Captura en LOINC**: El paciente responde preguntas codificadas con códigos LOINC específicos del cuestionario de tamizaje.
-2. **Representación en LOINC**: Cada respuesta se convierte en una instancia del perfil `ObservacionSDOH`, manteniendo el código LOINC de la pregunta como identificador único.
-3. **Diagnóstico en SNOMED CT**: El profesional de salud evalúa estas observaciones LOINC y confirma el diagnóstico de riesgo social, codificándolo con el concepto clínico SNOMED CT correspondiente.
-4. **Reportabilidad en CIE-10**: Para efectos de reportabilidad estadística al nivel central de salud chileno (MINSAL), el recurso `Condition` también incluye la codificación CIE-10 (Código Z) en paralelo.
-
-Esta arquitectura evita silos de información y asegura que los sistemas de registro clínico electrónico (RCE) en Chile puedan comunicarse e interoperar con estándares mundiales de salud.
-
----
-
-## 3. Marco de Modelado de Datos (Data Modeling Framework)
-
-Inspirado en el estándar de la guía internacional **Gravity SDOH Clinical Care**, el siguiente diagrama de modelado de datos refleja las estructuras primarias y las relaciones lógicas entre cada uno de los perfiles FHIR definidos en esta guía chilena de transporte:
+El modelo de información define las relaciones entre los principales perfiles desarrollados para esta guía y muestra cómo fluye la información desde el cuestionario de tamizaje hasta el registro de una condición clínica. La Figura 1 muestra las principales relaciones entre los perfiles definidos en esta guía. El flujo comienza con un `Questionnaire`, cuyas respuestas son almacenadas en un `QuestionnaireResponse`. Posteriormente, cada respuesta es transformada en recursos `Observation`, los cuales pueden servir como evidencia para una `Condition` registrada por un profesional de salud.
 
 <div style="text-align: center; margin: 25px 0;">
   {% include data-modeling-framework.svg %}
+  <p style="margin-top: 10px; font-style: italic; color: #555;">Figura 1. Modelo de datos y relaciones lógicas entre perfiles SDOH.</p>
 </div>
-
-* **Tamizaje (Assessment)**: Se recopila la información del paciente mediante una respuesta al tamizaje (`RespuestaTransporteSDOH`) basada en un cuestionario estructurado (`CuestionarioTransporteSDOH`).
-* **Representación de Evidencia**: Cada pregunta de la encuesta se traduce semánticamente en un recurso `ObservacionSDOH` que apunta a su cuestionario origen usando la relación `derivedFrom`.
-* **Diagnóstico Clínico-Social**: Si existen problemas de transporte, el profesional registra una `CondicionSDOH` que agrega a su lista de problemas, la cual enlaza las observaciones previas en su elemento `evidence.detail` como respaldo clínico.
-* **Consentimiento**: El recurso `ConsentimientoInformadoSDOH` regula éticamente el tratamiento de estos datos clínicos y sociales del paciente (`Patient`).
 
 ---
 
-## 4. Flujo de Transformación Semántica (FML)
+## 3. Transformación mediante FHIR Mapping Language (FML)
 
-Para automatizar la extracción de datos desde el cuestionario de tamizaje hacia observaciones clínicas estructuradas, la guía define reglas de mapeo mediante el lenguaje **FML (FHIR Mapping Language)** a través de un `StructureMap`. Esto evita que el personal clínico deba digitalizar doblemente la información.
-
-A continuación, se detalla el flujo de secuencia lógico del motor de transformación:
+El recurso `QuestionnaireResponse` generado tras el tamizaje es procesado mediante un recurso `StructureMap`, el cual aplica las reglas definidas en FHIR Mapping Language (FML) para generar un conjunto de recursos `Observation` agrupados en un Bundle de tipo `collection`.
 
 <div style="text-align: center; margin: 25px 0;">
-  {% include fml-flow.svg %}
+  {% include fml-transformation-simple.svg %}
+  <p style="margin-top: 10px; font-style: italic; color: #555;">Figura 2. Proceso de mapeo semántico estructural.</p>
+</div>
+
+---
+
+## 4. Persistencia y Consulta de Recursos FHIR
+
+Para almacenar e interrogar la información, los recursos `Observation` se incorporan a un Bundle de tipo `transaction`, el cual es enviado al servidor FHIR para su persistencia. Una vez almacenados, los recursos se desempaquetan e indexan individualmente como recursos persistidos, pudiendo ser consultados mediante las operaciones estándar de búsqueda de FHIR y servir como evidencia para el registro de una `Condition`.
+
+<div style="text-align: center; margin: 25px 0;">
+  {% include persistence-simple.svg %}
+  <p style="margin-top: 10px; font-style: italic; color: #555;">Figura 3. Flujo de persistencia transaccional y consultas clínicas.</p>
 </div>

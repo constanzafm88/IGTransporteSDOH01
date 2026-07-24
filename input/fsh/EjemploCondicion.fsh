@@ -1,4 +1,4 @@
-Alias: $SDOHCC-TemporaryCodes = http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/sdohcc-temporary-codes
+Alias: $SDOHCC-TemporaryCodes = http://hl7.org/fhir/us/sdoh-clinicalcare/CodeSystem/SDOHCC-CodeSystemTemporaryCodes
 Alias: $SCT = http://snomed.info/sct
 
 Instance: CondicionTransporteJuan
@@ -69,6 +69,6 @@ Usage: #example
 * active = true
 * practitioner = Reference(ProfesionalSocialEjemplo)
 * organization = Reference(CESFAMLasCabras)
-* code = https://interoperabilidad.minsal.cl/fhir/ig/eis/CodeSystem/eis-TituloProfesional-CS#7 "Psicólogos/as" // Código representativo del MINSAL
+* code = https://interoperabilidad.minsal.cl/fhir/ig/eis/CodeSystem/eis-titulo-profesional-cs#7 "Psicólogos/as" // Código representativo del MINSAL
 * code.text = "Trabajadora Social"
 * location = Reference(LocalizacionCESFAMLasCabras)

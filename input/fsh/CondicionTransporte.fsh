@@ -35,6 +35,19 @@ Description: "Perfil de Condición para registrar diagnósticos clínico-sociale
 * code from VSCondicionesTransporte (extensible)
 * code ^short = "Código de diagnóstico de la condición SDOH (extensible a más dominios)"
 
+// --- TABLA DE BINDINGS ADICIONALES CONDICIONALES (Gravity Style Multi-Dominio) ---
+// Cuando el dominio SDOH sea "transportation-insecurity", validar contra VSCondicionesTransporte
+* code ^binding.extension[+].url = "http://hl7.org/fhir/tools/StructureDefinition/additional-binding"
+* code ^binding.extension[=].extension[+].url = "key"
+* code ^binding.extension[=].extension[=].valueId = "transportation-insecurity-conditions"
+* code ^binding.extension[=].extension[+].url = "purpose"
+* code ^binding.extension[=].extension[=].valueCode = #extensible
+* code ^binding.extension[=].extension[+].url = "valueSet"
+* code ^binding.extension[=].extension[=].valueCanonical = Canonical(VSCondicionesTransporte)
+* code ^binding.extension[=].extension[+].url = "usage"
+* code ^binding.extension[=].extension[=].valueUsageContext.code = http://terminology.hl7.org/CodeSystem/usage-context-type#focus
+* code ^binding.extension[=].extension[=].valueUsageContext.valueCodeableConcept = $SDOHCC-TemporaryCodes#transportation-insecurity "Transportation Insecurity"
+
 
 // 4. Sujeto obligado a ser una referencia a un Paciente (flexible y compatible)
 * subject 1..1 MS

@@ -14,7 +14,7 @@ Description: "Este perfil define las reglas para las respuestas del cuestionario
 * questionnaire 1..1 MS
 * questionnaire ^short = "Cuestionario de origen"
 // IMPORTANTE: Aquí vinculamos con la URL de tu instancia de cuestionario
-* questionnaire = "http://example.org/ig/transporte/Questionnaire/CuestionarioTransporteSDOH"
+* questionnaire = "http://biomedica.uv.cl/fhir/ig/transporte/Questionnaire/CuestionarioTransporteSDOH"
 
 // 2b. Referencia obligatoria al Paciente
 * subject 1..1 MS

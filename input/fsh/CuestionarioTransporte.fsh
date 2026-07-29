@@ -43,7 +43,7 @@ Usage: #example
 * item[=].item[=].linkId = "101351-5"
 * item[=].item[=].code = $LNC#101351-5 "Has lack of transportation kept you from medical appointments, meetings, work, or from getting things needed for daily living during assessment period [CMS Assessment]"
 * item[=].item[=].text = "En los últimos 12 meses, ¿la falta de transporte le ha impedido asistir a citas, trabajo o actividades diarias?"
-* item[=].item[=].answerValueSet = "http://loinc.org/vs/LL6295-1"
+* item[=].item[=].answerValueSet = "http://loinc.org/vs/LL6509-5"
 * item[=].item[=].required = false
 
 // --- PREGUNTA 4: Problemas para pagar transporte ---

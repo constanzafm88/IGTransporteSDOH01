@@ -1,3 +1,2 @@
 # Suppressed Messages
-rule=suppress
-%No server available%
+# Actualmente no se suprime ningún mensaje.

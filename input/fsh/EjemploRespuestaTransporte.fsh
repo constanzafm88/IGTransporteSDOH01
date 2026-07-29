@@ -6,7 +6,7 @@ Usage: #example
 
 * status = #completed
 * authored = "2026-05-06T11:00:00Z"
-* questionnaire = "http://example.org/ig/transporte/Questionnaire/CuestionarioTransporteSDOH"
+* questionnaire = "http://biomedica.uv.cl/fhir/ig/transporte/Questionnaire/CuestionarioTransporteSDOH"
 * subject = Reference(EjemploPaciente)
 
 * identifier.value = "uuid-ejemplo-12345"
